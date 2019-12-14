@@ -2,4 +2,4 @@
 
 **Let's go study "Go"**
 
-![image](http://golang.site/images/gopher-by-takuya.png)
+![image](https://t1.daumcdn.net/cfile/tistory/99AFF43E5C4D69DC33)
