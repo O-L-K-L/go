@@ -5,5 +5,5 @@ import "strings"
 
 // Calculate 는 문자열을 입력 받아 단어의 개수를 세어 반환한다.
 func Calculate(s string) int {
-	return len(strings.Split(s, " "))
+	return len(strings.Fields(s))
 }

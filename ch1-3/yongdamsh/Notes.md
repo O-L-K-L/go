@@ -48,6 +48,12 @@
 - `func main() {}`은 프로그램의 entry point
 - 
 
+### 문서화
+- godoc 명령어를 통해 코드에 작성한 주석을 기반으로 자동 문서화가 가능하다.
+- ex) `godoc http=:8080` -> `http://localhost:8080` 접속
+  - http://localhost:8080/pkg/github.com/O-L-K-L/go-study/ch1-3/yongdamsh/wc/
+
+
 ### 추가 학습 필요
 - WaitGroup, counting semaphore?
 - interface{}, reflection (타입의 메타데이터를 읽어 런타임에 코드를 이용해 타입을 조작하는 방법)
