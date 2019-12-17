@@ -1,8 +1,3 @@
-### Packaging 방식
-- 하위 디렉토리에 디렉토리명과 동일한 package name을 정의하면 해당 파일들을 합쳐서 사용할 수 있다.
-- https://github.com/goinaction/code/tree/master/chapter2/sample 참고
-- 
-
 ### 문법 특징
 - Multiple return
   - 통상적으로 value, error 순으로 반환한다.
@@ -44,6 +39,20 @@
         _ "path/to/package"
       )
       ```
+
+### 패키지 시스템
+- 하위 디렉토리에 디렉토리명과 동일한 package name을 정의하면 해당 파일들을 합쳐서 사용할 수 있다.
+  - https://github.com/goinaction/code/tree/master/chapter2/sample 참고
+- Standard 패키지 위치
+  - /usr/local/go/src
+- `func main() {}`은 프로그램의 entry point
+- 
+
+### 문서화
+- godoc 명령어를 통해 코드에 작성한 주석을 기반으로 자동 문서화가 가능하다.
+- ex) `godoc http=:8080` -> `http://localhost:8080` 접속
+  - http://localhost:8080/pkg/github.com/O-L-K-L/go-study/ch1-3/yongdamsh/wc/
+
 
 ### 추가 학습 필요
 - WaitGroup, counting semaphore?
