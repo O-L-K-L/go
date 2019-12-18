@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	_ "./matchers"
-	"./search"
+	_ "github.com/webgenie/go-in-action/chapter2/sample/matchers"
+	"github.com/webgenie/go-in-action/chapter2/sample/search"
 )
 
 func init() {
