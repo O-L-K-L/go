@@ -22,5 +22,5 @@ main 함수가 실행하기 전에 실행되는 함수(ex. db 드라이버 설�
 `go clean` - 실행 파일 삭제  
 `go run` - 빌드와 실행을 동시에 처리  
 `go vet` - 코드상의 에러를 검사  
-`go format` - lint와 유사한 기능  
+`go fmt` - lint와 유사한 기능  
 `go doc` - 문서 열람  
