@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Estimator</title>
+  </head>
+  <body>
+    <h1>Tasks</h1>
+    <button onclick="fetchTasks()">Fetch Tasks</button>
+    <button onclick="createTask()">Create a New Task</button>
+    
+    <ul id="list"></ul>
+
+    <script>
+      function fetchTasks() {
+        fetch('/tasks')
+          .then(response => response.json())
+          .then(tasks => renderTasks(tasks));
+      }
+
+      function createTask() {
+        const newTask = {
+          feature: { name: 'HTTP Server' },
+          name: 'Styling',
+          originalEstimatedTime: '1h',
+          currentEstimatedTime:  '1h',
+          elapsedTime: '0m',
+        };
+
+        fetch('/tasks', {
+          method: 'POST',
+          body: JSON.stringify(newTask),
+        }).then(() => fetchTasks());
+      }
+      
+      function renderTasks(tasks) {
+        while (list.firstChild) {
+          list.removeChild(list.firstChild);
+        }
+
+        tasks.forEach((task, index) => {
+          const li = document.createElement('li');
+
+          li.innerHTML = `
+            <div>${index + 1}. ${task.name} (${task.elapsedTime} / ${task.originalEstimatedTime})</div>
+          `;
+
+          list.appendChild(li);
+        })
+      }
+
+      fetchTasks();
+    </script>
+  </body>
+</html>
