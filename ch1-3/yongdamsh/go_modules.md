@@ -69,6 +69,18 @@ func NewHello() string {
 go mod tidy
 ```
 
+### Release
+
+태그를 추가해 릴리즈할 수 있다. 버전은 [semantic version](https://semver.org/) rule을 따른다.
+
+```sh
+git add ...
+git commit ...
+
+git tag v0.1.0
+git push origin v0.1.0
+```
+
 ### References
 - Guide Part 1: https://blog.golang.org/using-go-modules
 - Semantic Import Versioning: https://research.swtch.com/vgo-import
