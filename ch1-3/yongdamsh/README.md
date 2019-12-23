@@ -54,6 +54,9 @@
   - http://localhost:8080/pkg/github.com/O-L-K-L/go-study/ch1-3/yongdamsh/wc/
 
 
-### 추가 학습 필요
+### 추가 학습
 - WaitGroup, counting semaphore?
+  - https://jhnyang.tistory.com/101
 - interface{}, reflection (타입의 메타데이터를 읽어 런타임에 코드를 이용해 타입을 조작하는 방법)
+  - Chapter 5에서 인터페이스 다룰 예정
+- [Go Modules](go_modules.md)
