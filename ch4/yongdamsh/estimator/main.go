@@ -8,17 +8,6 @@ import (
 	"net/http"
 )
 
-var port = flag.String("port", ":5050", "server port")
-
-func main() {
-	flag.Parse()
-
-	http.Handle("/", http.FileServer(http.Dir("./public")))
-	http.HandleFunc("/tasks", taskHandler)
-
-	log.Fatal(http.ListenAndServe(*port, nil))
-}
-
 type Feature struct {
 	Name string `json:"name"`
 }
@@ -31,18 +20,33 @@ type Task struct {
 	Elapsed string  `json:"elapsedTime"`
 }
 
-var features = []Feature{
-	{Name: "HTTP Server"},
+var (
+	port     = flag.String("port", ":5050", "server port")
+	features []Feature
+	tasks    []Task
+)
+
+func init() {
+	b, err := ioutil.ReadFile("./data/features.json")
+
+	if err = json.Unmarshal(b, &features); err != nil {
+		panic(err)
+	}
+
+	b, err = ioutil.ReadFile("./data/tasks.json")
+
+	if err = json.Unmarshal(b, &tasks); err != nil {
+		panic(err)
+	}
 }
 
-var tasks = []Task{
-	{
-		Feature: features[0],
-		Name:    "Task CRUD",
-		OrigEst: "2h",
-		CurEst:  "2h",
-		Elapsed: "30m",
-	},
+func main() {
+	flag.Parse()
+
+	http.Handle("/", http.FileServer(http.Dir("./public")))
+	http.HandleFunc("/tasks", taskHandler)
+
+	log.Fatal(http.ListenAndServe(*port, nil))
 }
 
 func taskHandler(w http.ResponseWriter, req *http.Request) {

@@ -8,7 +8,7 @@
     <button onclick="fetchTasks()">Fetch Tasks</button>
     <button onclick="createTask()">Create a New Task</button>
     
-    <ul id="list"></ul>
+    <ol id="list"></ol>
 
     <script>
       function fetchTasks() {
@@ -37,11 +37,11 @@
           list.removeChild(list.firstChild);
         }
 
-        tasks.forEach((task, index) => {
+        tasks.forEach((task) => {
           const li = document.createElement('li');
 
           li.innerHTML = `
-            <div>${index + 1}. ${task.name} (${task.elapsedTime} / ${task.originalEstimatedTime})</div>
+            <div>${task.name} (${task.elapsedTime} / ${task.originalEstimatedTime})</div>
           `;
 
           list.appendChild(li);
