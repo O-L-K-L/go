@@ -29,11 +29,19 @@ var (
 func init() {
 	b, err := ioutil.ReadFile("./data/features.json")
 
+	if err != nil {
+		panic(err)
+	}
+
 	if err = json.Unmarshal(b, &features); err != nil {
 		panic(err)
 	}
 
 	b, err = ioutil.ReadFile("./data/tasks.json")
+
+	if err != nil {
+		panic(err)
+	}
 
 	if err = json.Unmarshal(b, &tasks); err != nil {
 		panic(err)
@@ -51,7 +59,7 @@ func main() {
 
 func taskHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == http.MethodGet {
-		s, err := json.Marshal(tasks)
+		b, err := json.Marshal(tasks)
 
 		if err != nil {
 			w.WriteHeader(400)
@@ -59,13 +67,13 @@ func taskHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		w.Header().Add("content-type", "application/json")
-		w.Write(s)
+		w.Write(b)
 	} else if req.Method == http.MethodPost {
 		defer req.Body.Close()
 		body, err := ioutil.ReadAll(req.Body)
 
 		if err != nil {
-			w.WriteHeader(400)
+			w.WriteHeader(500)
 			log.Println("failed to read body", err)
 			return
 		}
@@ -73,12 +81,29 @@ func taskHandler(w http.ResponseWriter, req *http.Request) {
 		var newTask Task
 
 		if err = json.Unmarshal(body, &newTask); err != nil {
-			w.WriteHeader(400)
+			w.WriteHeader(500)
 			log.Println("failed to convert to json", err)
 			return
 		}
 
 		tasks = append(tasks, newTask)
+
+		if err = syncTasks(); err != nil {
+			w.WriteHeader(500)
+			log.Println("failed to sync tasks", err)
+			return
+		}
+
 		w.WriteHeader(204)
 	}
+}
+
+func syncTasks() error {
+	b, err := json.MarshalIndent(tasks, "", "\t")
+
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile("./data/tasks.json", b, 0644)
 }
