@@ -71,10 +71,3 @@
 
 
 ## Learn More
-
-## Exercise
-
-### Estimator: Managing estimated time of task
-- Go to [estimator](./estimator) directory 
-- Run a web server `go run main.go`
-- Open `http://localhost:5050`
