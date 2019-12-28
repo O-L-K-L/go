@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	_ "./matchers"
-	"./search"
+	_ "github.com/O-L-K-L/go-study/ch1-3/ideveloper/chap2/sample/matchers"
+	"github.com/O-L-K-L/go-study/ch1-3/ideveloper/chap2/sample/search"
 )
 
 // init 함수는 main 함수보다 먼저 호출된다.
