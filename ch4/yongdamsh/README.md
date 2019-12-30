@@ -71,3 +71,18 @@
 
 
 ## Learn More
+
+### Slice Tricks
+- js의 Array method와 같은 기능 구현을 위한 팁: 
+https://github.com/golang/go/wiki/SliceTricks
+
+### 다양한 데이터베이스 적용
+1. 메모리
+2. 파일 시스템
+  - [json](https://golang.org/pkg/encoding/json/)
+    - 관련 [commit](https://github.com/yongdamsh/estimator/commit/60e860c9dc8fac61b8ea1fac1d197dc4c6cb0a07#diff-bb7589ef3d57eaea1d896c9d874d303d)
+  - [csv](https://golang.org/pkg/encoding/csv/)
+    - 관련 [commit](https://github.com/yongdamsh/estimator/commit/c009a7a4fe7a7a8ec6b111d41ffc91ded36fb87d)
+3. [sql](https://golang.org/pkg/database/sql)
+  - 단일 사용자 환경의 소규모 앱에 적합한 sqlite 적용
+    - 관련 [commit](https://github.com/yongdamsh/estimator/commit/1b97c4d552ca9528736720068131d815f0942ade)
