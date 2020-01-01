@@ -19,7 +19,7 @@
     fmt.Println("total", Sum(&arr))
   }
   ```
-- 
+- 타입으로 설정된 length만큼 초기값(zero value)이 할당되므로 별도로 초기화할 필요 없다.
 
 ## Slice
 
@@ -27,7 +27,20 @@
 - 참조 타입
   - https://play.golang.org/p/l206Yl9BQhj
   - https://play.golang.org/p/G57qb5Eq7rH
-- 
+
+### Capacity
+- `make` 생성자의 세번째 파라미터로 지정한다. 지정하지 않으면 length와 같은 값으로 설정된다.
+- `cap` 함수로 현재 capacity 값을 조회할 수 있다.
+- Capacity를 변경하는 방법
+  1. `copy` 함수
+    - `func copy(dst, src []T) int`
+  2. `append` 함수
+    - `append` 함수를 통해 capacity를 확장할 수 있다. 이 때 length에 따라 capacity 증가량이 달라진다.
+    - [Capacity grow algorithm](https://github.com/golang/go/blob/master/src/runtime/slice.go#L95-L114)
+
+### 주의사항
+Slice는 참조 타입이기 때문에 GC로 정리되기 전까진 참조하는 배열의 메모리가 계속 유지된다. 따라서 파일 전체를 메모리에 유지하는 등의 비효율적인 경우를 피해야 한다.
+- [관련 사례와 해결책](https://blog.golang.org/go-slices-usage-and-internals#TOC_6.)
 
 ## Map
 - 참조 타입
@@ -75,6 +88,13 @@
 ### Slice Tricks
 - js의 Array method와 같은 기능 구현을 위한 팁: 
 https://github.com/golang/go/wiki/SliceTricks
+
+### Slice Usage & Internals
+https://blog.golang.org/go-slices-usage-and-internals
+
+- Slice는 array 상의 추상 타입이다.
+- Array를 slice로 변환하기
+  - https://play.golang.org/p/sWGYBTyRPj5
 
 ### 다양한 데이터베이스 적용
 1. 메모리

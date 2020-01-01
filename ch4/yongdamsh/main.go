@@ -9,16 +9,16 @@ type Todo map[string]string
 func main() {
 	todos := make([]Todo, 5)
 
-	newTodo := Todo{ "title": "Write in Go" }
-	
+	newTodo := Todo{"title": "Write in Go"}
+
 	for index := range todos {
 		todos[index] = newTodo
 	}
-	
+
 	fmt.Println("list: ", todos)
 	fmt.Println("cap: ", cap(todos))
 
-	todos = append(todos, map[string]string{ "title": "Being a Go Developer" })
+	todos = append(todos, Todo{"title": "Being a Go Developer"})
 
 	fmt.Println("list: ", todos)
 	fmt.Println("cap: ", cap(todos))
