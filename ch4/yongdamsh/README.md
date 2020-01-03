@@ -96,6 +96,12 @@ https://blog.golang.org/go-slices-usage-and-internals
 - Array를 slice로 변환하기
   - https://play.golang.org/p/sWGYBTyRPj5
 
+### Slice의 length와 capacity를 다르게 초기화하는 경우는 언제 필요한가?
+```go
+slice := make([]int, 3, 5)
+```
+자동으로 capacity를 늘려 주는 [grow 알고리즘](https://github.com/golang/go/blob/master/src/runtime/slice.go#L76-L191) 연산 비용을 줄이기 위함일까?
+
 ### 다양한 데이터베이스 적용
 1. 메모리
 2. 파일 시스템
