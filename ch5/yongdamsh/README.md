@@ -56,6 +56,18 @@
   ```
   - 근데 '5.3 타입의 본질' section 후반부에서는 `메서드가 수신된 값을 변경하는지는 전혀 관련이 없다. 값의 본질에 따라 결정해야 한다.` 라고 한다. 
   - 그럼 '값의 본질'이란 뭘 뜻하는가? 책에서는 [time](https://golang.org/pkg/time/), [os](https://golang.org/pkg/os/) 표준 라이브러리의 일부분을 예를 들어 비교하고 있다.
+  - 
 
 
 ## Interface
+
+### 표준 라이브러리로 살펴보는 인터페이스 사용법
+
+1. io
+2. sort
+
+
+
+## References
+- [Articles about Interface](https://github.com/golang/go/wiki/Articles#interfaces--oop)
+- [Sorting Inventory Items in Go](https://adampresley.github.io/2015/09/06/sorting-inventory-items-in-go.html)
