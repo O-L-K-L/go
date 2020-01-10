@@ -91,12 +91,126 @@ func DoSomething(v interface{}) { ... }
 ![Method set rules](./method_set_rules.png)
 
 
+### Type Embedding
+
+- struct에 user-defined type을 정의해 타입을 내장할 수 있다. 
+- 내부 타입의 필드와 메서드는 외부에서도 바로 접근 가능하다.
+- 명시적으로 내부 타입에 직접 접근할 수 있다.
+  - 아래 코드를 예로 들면 `duck.Bird.Name`
+
+```go
+type Flier interface {
+  fly()
+}
+
+type Bird struct {
+  name string
+}
+
+func (b Bird) fly() {
+  fmt.Println(b.name + " is flying!")
+}
+
+type Duck struct {
+  Bird
+}
+
+func flyAway(f Flier) {
+  f.fly()
+}
+
+func main() {
+  duck := Duck{
+    Bird {
+      name: "Donald Duck"
+    }
+  }
+
+  flyAway(duck)
+}
+```
+
 ### 표준 라이브러리로 살펴보는 인터페이스 사용법
+하나의 동작을 표현하는 인터페이스들을 다양하게 조합한다.
 
-1. io
-2. fmt
-3. sort
 
+#### Package [io](https://golang.org/pkg/io)
+읽고, 쓰고, 닫는 동작을 정의함.
+
+- `Reader`
+  ```go
+  type Reader interface {
+    Read(p []byte) (n int, err error)
+  }
+  ```
+- `Writer`
+  ```go
+  type Writer interface {
+    Write(p []byte) (n int, err error)
+  }
+  ```
+- `Closer`
+  ```go
+  type Closer interface {
+    Close() error
+  }
+  ```
+- `ReadWriter`, `ReadCloser`, `ReadWriteCloser`
+  ```go
+  type ReadWriteClose interface {
+    Reader
+    Writer
+    Closer
+  }
+  ```
+- `LimitReader`와 같이 추가 동작을 정의할 수 있다. 
+  ```go
+  func LimitReader(r Reader, n int64) Reader { return &LimitedReader{r, n} }
+
+  type LimitedReader struct {
+    R Reader // underlying reader
+    N int64  // max bytes remaining
+  }
+
+  func (l *LimitedReader) Read(p []byte) (n int, err error) {
+    if l.N <= 0 {
+      return 0, EOF
+    }
+    if int64(len(p)) > l.N {
+      p = p[0:l.N]
+    }
+    n, err = l.R.Read(p)
+    l.N -= int64(n)
+    return
+  }
+  ```
+
+- Example: `http` 요청, 응답의 Body
+  - `go run io_example/main.go`
+
+
+#### Package [sort](https://golang.org/pkg/sort/)
+
+`Len`, `Less`, `Swap` 메서드가 정의된 목록 타입을 정렬할 수 있다.
+
+- `sort.Interface`
+  ```go
+  type Interface interface {
+    // Len is the number of elements in the collection.
+    Len() int
+    // Less reports whether the element with
+    // index i should sort before the element with index j.
+    Less(i, j int) bool
+    // Swap swaps the elements with indexes i and j.
+    Swap(i, j int)
+  }
+  ```
+- `sort.Sort`
+  ```go
+  func Sort(data Interface)
+  ```
+- Example: user-defined type slice의 정렬
+  - `go run sort_example/main.go`
 
 
 ## References
