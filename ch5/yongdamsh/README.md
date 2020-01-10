@@ -186,7 +186,7 @@ func main() {
   ```
 
 - Example: `http` 요청, 응답의 Body
-  - `go run io_example/main.go`
+  - go run [io_example/main.go](io_example/main.go)
 
 
 #### Package [sort](https://golang.org/pkg/sort/)
@@ -210,7 +210,7 @@ func main() {
   func Sort(data Interface)
   ```
 - Example: user-defined type slice의 정렬
-  - `go run sort_example/main.go`
+  - go run [sort_example/main.go](sort_example/main.go)
 
 
 ## References
