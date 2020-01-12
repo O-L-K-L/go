@@ -183,6 +183,8 @@ type file struct {
 
 ##### 다형성
 
+- 참고자료: https://mingrammer.com/translation-go-and-oop/ go와 oop
+
 - 매개변수에 전달된 구현 타입이 notify 메서드를 구현하고 있다면, 구현 타입의 종류와 관계없이 그 메서드를 호출 가능
 - https://play.golang.org/p/mWYSQB4D2P9
 
