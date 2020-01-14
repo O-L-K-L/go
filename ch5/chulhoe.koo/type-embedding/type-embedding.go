@@ -4,12 +4,12 @@ import (
 	"fmt"
 )
 
-type user2 struct {
+type user struct {
 	name  string
 	email string
 }
 
-func (u *user2) notify() {
+func (u *user) notify() {
 	fmt.Printf("이메일을 전송합니다. %s<%s>\n", u.name, u.email)
 }
 
@@ -18,7 +18,7 @@ type admin struct {
 	level string
 }
 
-func main2() {
+func main() {
 	ad := admin{
 		user: user{
 			name:  "kevin.koo",
