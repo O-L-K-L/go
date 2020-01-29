@@ -6,17 +6,17 @@ import (
 )
 
 func main() {
-  cnt := int64(10)
+	cnt := int64(10)
 
-  for i := 0; i < 10; i++ {
-    go func() {
-      cnt--
-    }()
-  }
+	for i := 0; i < 10; i++ {
+		go func() {
+			cnt--
+		}()
+	}
 
-  if cnt > 0 {
-    time.Sleep(100 * time.Millisecond)
-  }
+	if cnt > 0 {
+		time.Sleep(100 * time.Millisecond)
+	}
 
-  fmt.Println(cnt)
+	fmt.Println(cnt)
 }
