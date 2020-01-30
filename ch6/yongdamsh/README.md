@@ -278,7 +278,7 @@ Fan-out으로 파이프라인을 통과시킨 뒤, Fan-in
 모든 고루틴이 막혀 교착 상태(deadlock)이 된 경우엔 에러가 발생하지만 
 경쟁 상태(race condition)인 경우에는 버그를 쉽게 발견하기 어렵다.
 
-아래 코드는 경쟁 상태에 놓일 수 있다. 실제로 `go run -race deadlock.go`를 실행해보면 경쟁 상태 에러가 발생한다.
+아래 코드는 경쟁 상태에 놓일 수 있다. 실제로 `go run -race race.go`를 실행해보면 경쟁 상태 에러가 발생한다.
 ```go
 func main() {
   cnt := int64(10)
@@ -306,7 +306,7 @@ cnt 값을 메모리에서 가져와 1을 감소시키고 다시 저장하는 �
 `cnt > 0`를 `atomic.LoadInt64(&cnt) > 0`로 변경  
 
 또는 채널을 이용해 atomic 없이도 동시성 문제를 해결할 수 있다.
-`go run -race no_deadlock.go`를 실행해 보자.
+`go run -race no_race.go`를 실행해 보자.
 
 그 밖에 가장 먼저 실행되어야 하는 초기화에 쓸 수 있는 `sync.Once`와  
 외부 자원 접근 시 상호 배타 잠금 기능을 위한 `sync.Mutex`, `sync.RWMutex` 등을 참고하자.
