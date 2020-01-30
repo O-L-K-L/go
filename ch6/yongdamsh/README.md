@@ -221,7 +221,7 @@ func main() {
 
 
 3. 팬인
-> 팬아웃 (Fan-out): 논리회로에서 주로 쓰이는 용어. 하나의 게이트에 여러 개의 입력선이 들어가는 경우
+> 팬인 (Fan-in): 논리회로에서 주로 쓰이는 용어. 하나의 게이트에 여러 개의 입력선이 들어가는 경우
 
 ```go
 func FanIn(ins ...<-chan int) <-chan int {
@@ -255,6 +255,7 @@ func main() {
 
 
 4. 분산처리
+
 Fan-out으로 파이프라인을 통과시킨 뒤, Fan-in
 
 5. Select
@@ -266,6 +267,7 @@ Fan-out으로 파이프라인을 통과시킨 뒤, Fan-in
 8. 요청과 응답 짝짓기
 
 9. 동적으로 고루틴 이어붙이기
+
 
 ### 고루틴과 채널 사용 시 주의점
 ![고루틴과 채널 사용 시 주의점](https://user-images.githubusercontent.com/4126644/73361315-11ff2080-42e8-11ea-99b9-a50ee166ff4f.jpg)
