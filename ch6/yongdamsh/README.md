@@ -158,12 +158,104 @@ num, ok := <-c
 ### 동시성 패턴 (WIP)
 
 1. 파이프라인 패턴
+한 단계의 출력이 다음 단계의 입력으로 이어지는 구조
+
+https://play.golang.org/p/O9_pycVmeMM
+```go
+func PlusOne(in <-chan int) <-chan int {
+  out := make(chan int)
+
+  go func() {
+    defer close(out)
+
+    for num := range in {
+      out <- num + 1
+    }
+  }()
+
+  return out
+}
+
+func ExamplePlusOne() {
+  c := make(chan int)
+
+  go func() {
+    defer close(c)
+
+    c <- 5
+    c <- 3
+    c <- 8
+  }()
+
+  for num := range PlusOne(PlusOne(c)) {
+    fmt.Println(num)
+  }
+}
+```
 
 2. 팬아웃
+> 팬아웃 (Fan-out): 논리회로에서 주로 쓰이는 용어. 게이트 하나의 출력이 여러 입력으로 들어가는 경우
+
+채널 하나를 여럿에게 공유하는 방식이다.
+
+```go
+func main() {
+  c := make(chan int)
+
+  for i := 0; i < 3; i++ {
+    go func(i int) {
+      for n := range c {
+        time.Sleep(1)
+        fmt.Println(i, n)
+      }
+    }(i)
+  }
+
+  for i := 0; i < 10; i++ {
+    c <- i
+  }
+
+  close(c)
+}
+```
+
 
 3. 팬인
+> 팬아웃 (Fan-out): 논리회로에서 주로 쓰이는 용어. 하나의 게이트에 여러 개의 입력선이 들어가는 경우
+
+```go
+func FanIn(ins ...<-chan int) <-chan int {
+  out := make(chan int)
+  var wg sync.WaitGroup
+
+  wg.Add(len(ins))
+
+  for _, in := range ins {
+    go func(in <-chan int) {
+      defer wg.Done()
+
+      for num := range in {
+        out <- num
+      }
+    }(in)
+  }
+
+  go func() {
+    wg.Wait()
+    close(out)
+  }()
+
+  return out
+}
+
+func main() {
+  c := FanIn(c1, c2, c3)
+}
+```
+
 
 4. 분산처리
+Fan-out으로 파이프라인을 통과시킨 뒤, Fan-in
 
 5. Select
 
