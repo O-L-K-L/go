@@ -155,7 +155,7 @@ num, ok := <-c
 ```
 
 
-### 동시성 패턴 (WIP)
+### 동시성 패턴
 
 1. 파이프라인 패턴
 한 단계의 출력이 다음 단계의 입력으로 이어지는 구조
@@ -259,6 +259,23 @@ func main() {
 Fan-out으로 파이프라인을 통과시킨 뒤, Fan-in
 
 5. Select
+
+- 모든 case가 계산된다. 
+- 각 case는 채널에 입출력하는 형태가 되며 막히지 않고 입출력이 가능한 case가 있으면 해당 case의 코드만 수행된다.
+- default가 있으면 모든 case에 해당되지 않을 때 실행되고, 없으면 가능한 case가 발생할 때까지 기다린다.
+
+```go
+select {
+  case n := <-c1:
+    fmt.Println(n, "is from c1")
+  case n := <-c2:
+    fmt.Println(n, "is from c2")
+  case c3 <- f():
+    fmt.Println("f() return value is sent to c3")
+  default:
+    fmt.Println("No channel is ready")
+}
+```
 
 6. 파이프라인 중단하기
 
