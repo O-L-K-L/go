@@ -183,5 +183,189 @@ ex) `Len()`, `SetLen(x)`
 
 ## 디자인 패턴
 
-### 1. 반복자 패턴
+### 1. 추상 팩토리 패턴
 
+팩토리들을 여럿 묶어놓은 팩토리를 추상화 하는 패턴
+
+
+왼도우와 맥의 UI 구현을 다르게 하기 위해 추상 팩토리를 이용하는 예
+```go
+type Button interface {
+  Paint()
+  OnClick()
+}
+
+type Label interface {
+  Paint()
+}
+
+type WinButton struct{}
+
+func (WinButton) Paint() { fmt.Println("win button paint") }
+func (WinButton) OnClick() { fmt.Println("win button paint") }
+
+type WinLabel struct{}
+
+func (WinLabel) Paint() { fmt.Println("win label paint") }
+
+type MacButton struct{}
+
+func (MacButton) Paint() { fmt.Println("mac button paint") }
+func (MacButton) OnClick() { fmt.Println("mac button click") }
+
+type MacLabel struct{}
+
+func (MacLabel) Paint() { fmt.Println("mac label paint") }
+
+type UIFactory interface {
+  CreateButton() Button
+  CreateLabel() Label
+}
+
+type WinFactory struct{}
+
+func (WinFactory) CreateButton() Button {
+  return WinButton{}
+}
+
+func (WinFactory) CreateLabel() Label {
+  return WinLabel{}
+}
+
+type MacFactory struct{}
+
+func (MacFactory) CreateButton() Button {
+  return MacButton{}
+}
+
+func (MacFactory) CreateLabel() Label {
+  return MacLabel{}
+}
+
+func CreateFactory(os String) UIFactory {
+  if os == "win" {
+    return WinFactory{}
+  } else {
+    return MacFactory{}
+  }
+}
+
+func Run(f UIFactory) {
+  button := f.CreateButton()
+  button.Paint()
+  button.OnClick()
+
+  label := f.CreateLabel()
+  label.Paint()
+}
+
+func main() {
+  f1 := CreateFactory("win")
+  Run(f1)
+
+  f2 := CreateFactory("mac)
+  Run(f2)
+}
+```
+
+### 2. [비지터 패턴](https://ko.wikipedia.org/wiki/%EB%B9%84%EC%A7%80%ED%84%B0_%ED%8C%A8%ED%84%B4)
+
+알고리즘을 객체 구조에서 분리시키기 위한 디자인 패턴
+
+```go
+type CarElementVisitor interface {
+  VisitWheel(wheel Wheel)
+  VisitEngine(engine Engine)
+  VisitBody(body Body)
+  VisitCar(car Car)
+}
+
+type Acceptor interface {
+  Accept(visitor CarElementVisitor)
+}
+
+type Wheel string
+
+func (w Wheel) Name() string {
+  return string(w)
+}
+
+func (w Wheel) Accept(visitor CarElementVisitor) {
+  visitor.VisitWheel(w)
+}
+
+type Engine struct{}
+
+func (e Engine) Accept(visitor CarElementVisitor) {
+  visitor.VisitEngine(e)
+}
+
+type Body struct{}
+
+func (b Body) Accept(visitor CarElementVisitor) {
+  visitor.VisitBody(b)
+}
+
+type Car []Acceptor
+
+func (c Car) Accept(visitor CarElementVisitor) {
+  for _, e := range c {
+    e.Accept(visitor)
+  }
+  visitor.VisitCar(c)
+}
+
+type CarElementPrintVisitor struct{}
+
+func (CarElementPrintVisitor) VisitWheel(wheel Wheel) {
+  fmt.Println("Visiting " + wheel.Name() + " wheel.")
+}
+
+func (CarElementPrintVisitor) VisitEngine(engine Engine) {
+  fmt.Println("Visiting engine")
+}
+
+func (CarElementPrintVisitor) VisitBody(body Body) {
+  fmt.Println("Visiting body")
+}
+
+func (CarElementPrintVisitor) VisitCar(car Car) {
+  fmt.Println("Visiting car")
+}
+
+type CarElementDoVisitor struct{}
+
+func (CarElementDoVisitor) VisitWheel(wheel Wheel) {
+  fmt.Println("Kicking my " + wheel.Name() + " wheel.")
+}
+
+func (CarElementDoVisitor) VisitEngine(engine Engine) {
+  fmt.Println("Starting my engine")
+}
+
+func (CarElementDoVisitor) VisitBody(body Body) {
+  fmt.Println("Moving my body")
+}
+
+func (CarElementDoVisitor) VisitCar(car Car) {
+  fmt.Println("Starting my car")
+}
+
+func main() {
+  car := Car{
+    Wheel("front left"),
+    Wheel("front right"),
+    Wheel("back left"),
+    Wheel("back right"),
+    Body{},
+    Engine{},
+  }
+
+  car.Accept(CarElementPrintVisitor{})
+  car.Accept(CarElementDoVisitor{})
+}
+```
+
+디자인 패턴 스터디에 관심 있다면:
+- https://www.amazon.com/Head-First-Design-Patterns-Brain-Friendly/dp/0596007124
+- https://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional-ebook/dp/B000SEIBB8
